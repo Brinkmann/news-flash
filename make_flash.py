@@ -74,15 +74,20 @@ SYSTEM = [
 instruction = f"""Today is {TODAY}. Produce today's news flash for a listener in
 Tauranga, New Zealand, following the build instructions exactly.
 
+LENGTH IS CRITICAL: the script must be 900 to 1050 words. A script under 600
+words is a failure and will be rejected. Budget your research time so that you
+have room to write the full-length script. Do not summarise; write every block
+at the word counts in section 6.
+
 Output the SPOKEN SCRIPT ONLY: the exact words to be read aloud by a
 text-to-speech voice. No preamble, no corroboration appendix, no notes.
 Start with the lead line and end with the exact words "End of flash."
 
-Apply the two-source corroboration gate genuinely. A shorter, fully
-corroborated flash is correct; padding is a failure."""
+Apply the two-source corroboration gate genuinely. Padding is a failure, but so
+is a thin flash: if items are scarce, use the fill order in section 6."""
 
 MODEL = "claude-sonnet-5"
-TOOLS = [{"type": "web_search_20260318", "name": "web_search", "max_uses": 15}]
+TOOLS = [{"type": "web_search_20260318", "name": "web_search", "max_uses": 8}]
 
 messages = [{"role": "user", "content": instruction}]
 
