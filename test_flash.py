@@ -201,9 +201,13 @@ check("No web search tool in production path",
 check("Automatic retries disabled", "max_retries=0" in src)
 check("Token ceiling bounded and adequate",
       "max_tokens=3000" in src,
-      "must cover a ~1,600-token script plus adaptive-thinking headroom "
-      "(thinking is on by default on claude-sonnet-5 and counts against "
-      "max_tokens), while staying bounded")
+      "must cover a ~2,000-token script with headroom, while staying bounded")
+check("Thinking explicitly disabled so the output budget is deterministic",
+      'thinking={"type": "disabled"}' in src,
+      "adaptive thinking is on by default on claude-sonnet-5, counts against "
+      "max_tokens, and truncated the 2026-08-02 run")
+check("Truncated output fails the run explicitly",
+      'stop_reason == "max_tokens"' in src)
 
 
 # ------------------------------------------------------- D10-D11 MP3 gate
