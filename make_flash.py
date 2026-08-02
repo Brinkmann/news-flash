@@ -269,18 +269,25 @@ counts, no commentary. Start with the lead line and end with "End of flash."
 {digest}
 {dedup_section}"""
 
-# max_tokens caps thinking AND response text together on claude-sonnet-5
-# (adaptive thinking is on by default). A ~1,050-word script is ~1,600 tokens;
-# 3000 leaves thinking headroom while keeping worst-case output spend bounded.
+# Thinking is explicitly disabled: on claude-sonnet-5 it is on by default and
+# counts against max_tokens, and on 2026-08-02 it consumed the whole budget
+# and truncated the script. Disabled, the entire ceiling belongs to the
+# script (~2,000 tokens for 1,050 words), so 3000 is real headroom and the
+# worst-case output spend stays bounded.
 resp = client.messages.create(
     model="claude-sonnet-5",
     max_tokens=3000,
+    thinking={"type": "disabled"},
     messages=[{"role": "user", "content": prompt}],
 )
 
 u = resp.usage
 print(f"Usage: in={u.input_tokens} out={u.output_tokens} "
       f"stop_reason={resp.stop_reason}")
+
+if resp.stop_reason == "max_tokens":
+    sys.exit("Output hit the max_tokens ceiling, so the script is truncated. "
+             "Not publishing.")
 
 raw = "".join(b.text for b in resp.content if getattr(b, "type", None) == "text")
 
