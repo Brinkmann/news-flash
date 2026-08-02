@@ -3,18 +3,22 @@ name: Daily news flash
 # Runs entirely on GitHub's servers. Nothing local.
 on:
   schedule:
-    # GitHub cron is in UTC. 18:30 UTC = 06:30 NZST.
-    # NZ daylight saving (late Sep to early Apr) shifts NZ to UTC+13,
-    # so during NZDT this fires at 07:30 NZ. Acceptable; adjust if wanted.
+    # GitHub cron is UTC. 18:30 UTC = 06:30 NZST (07:30 during NZ daylight time).
     - cron: "30 18 * * *"
-  workflow_dispatch: {}   # also lets you run it by hand from the Actions tab
+  workflow_dispatch: {}   # manual dispatch for controlled testing
 
 permissions:
-  contents: write          # so the job can commit the new files back
+  contents: write
+
+concurrency:
+  # Never let two runs publish at once, and never queue a second paid run.
+  group: daily-news-flash
+  cancel-in-progress: false
 
 jobs:
   build-flash:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Get the repo
         uses: actions/checkout@v4
@@ -26,12 +30,17 @@ jobs:
 
       - name: Install tools
         run: |
-          pip install anthropic requests
+          pip install anthropic requests piper-tts
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
-          pip install piper-tts
 
-      - name: Download the voice model (once per run, cached)
+      - name: Cache the voice model
+        uses: actions/cache@v4
+        with:
+          path: voice
+          key: piper-en_GB-alba-medium-v1
+
+      - name: Download the voice model if not cached
         run: |
           mkdir -p voice
           if [ ! -f voice/en_GB-alba-medium.onnx ]; then
@@ -41,24 +50,55 @@ jobs:
               https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_GB/alba/medium/en_GB-alba-medium.onnx.json
           fi
 
+      # --- EDITORIAL: the only paid step. One call, no retries, no tools. ---
       - name: Produce the flash (editorial step)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -u make_flash.py
 
+      # --- Build audio to a DATED file, never straight to the served name. ---
       - name: Make the MP3
         run: |
-          piper --model voice/en_GB-alba-medium.onnx --output_file flash.wav < flash.txt
-          ffmpeg -y -v error -i flash.wav -codec:a libmp3lame -b:a 128k flash.mp3
-          rm -f flash.wav
+          DATE=$(date -u +%Y-%m-%d)
+          piper --model voice/en_GB-alba-medium.onnx \
+                --output_file "flash-$DATE.wav" < flash.txt
+          ffmpeg -y -v error -i "flash-$DATE.wav" \
+                 -codec:a libmp3lame -b:a 128k "flash-$DATE.mp3"
+          rm -f "flash-$DATE.wav"
 
+      # --- GATE: nothing is published unless the audio validates. ---
+      - name: Validate the MP3
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          python validate_mp3.py "flash-$DATE.mp3" flash.txt
+
+      # --- Only now does the served file change. Atomic promotion. ---
       - name: Publish
         run: |
           DATE=$(date -u +%Y-%m-%d)
           mkdir -p archive
           cp flash.json "archive/$DATE.json"
+          cp flash.txt  "archive/$DATE.txt"
+          cp "flash-$DATE.mp3" flash.mp3          # promote to the served URL
           git config user.name  "flash-bot"
           git config user.email "flash-bot@users.noreply.github.com"
-          git add flash.mp3 flash.json flash.txt "archive/$DATE.json"
+          git add flash.mp3 flash.json flash.txt last_run_sources.json \
+                  "archive/$DATE.json" "archive/$DATE.txt"
           git commit -m "Flash for $DATE" || echo "No changes"
           git push
+          rm -f "flash-$DATE.mp3"
+
+      # --- If anything above failed, make the staleness visible. ---
+      - name: Mark the flash unavailable on failure
+        if: failure()
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          cat > flash-status.json <<EOF
+          {"date": "$DATE", "status": "failed",
+           "note": "Today's flash was not produced. The audio at flash.mp3 is from an earlier day."}
+          EOF
+          git config user.name  "flash-bot"
+          git config user.email "flash-bot@users.noreply.github.com"
+          git add flash-status.json
+          git commit -m "Flash FAILED for $DATE" || echo "No changes"
+          git push || true
