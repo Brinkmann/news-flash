@@ -51,8 +51,8 @@ BUILD INSTRUCTIONS:
 {brief}
 """
 
-MODEL = "claude-opus-5"
-TOOLS = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 30}]
+MODEL = "claude-sonnet-5"
+TOOLS = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 15}]
 
 # Conversation loop: keep going until the model stops needing tools.
 messages = [{"role": "user", "content": instruction}]
