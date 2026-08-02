@@ -1,0 +1,64 @@
+name: Daily news flash
+
+# Runs entirely on GitHub's servers. Nothing local.
+on:
+  schedule:
+    # GitHub cron is in UTC. 18:30 UTC = 06:30 NZST.
+    # NZ daylight saving (late Sep to early Apr) shifts NZ to UTC+13,
+    # so during NZDT this fires at 07:30 NZ. Acceptable; adjust if wanted.
+    - cron: "30 18 * * *"
+  workflow_dispatch: {}   # also lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write          # so the job can commit the new files back
+
+jobs:
+  build-flash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: |
+          pip install anthropic requests
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          pip install piper-tts
+
+      - name: Download the voice model (once per run, cached)
+        run: |
+          mkdir -p voice
+          if [ ! -f voice/en_GB-alba-medium.onnx ]; then
+            curl -sL -o voice/en_GB-alba-medium.onnx \
+              https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_GB/alba/medium/en_GB-alba-medium.onnx
+            curl -sL -o voice/en_GB-alba-medium.onnx.json \
+              https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_GB/alba/medium/en_GB-alba-medium.onnx.json
+          fi
+
+      - name: Produce the flash (editorial step)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python make_flash.py
+
+      - name: Make the MP3
+        run: |
+          piper --model voice/en_GB-alba-medium.onnx --output_file flash.wav < flash.txt
+          ffmpeg -y -v error -i flash.wav -codec:a libmp3lame -b:a 128k flash.mp3
+          rm -f flash.wav
+
+      - name: Publish
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          mkdir -p archive
+          cp flash.json "archive/$DATE.json"
+          git config user.name  "flash-bot"
+          git config user.email "flash-bot@users.noreply.github.com"
+          git add flash.mp3 flash.json flash.txt "archive/$DATE.json"
+          git commit -m "Flash for $DATE" || echo "No changes"
+          git push
