@@ -1,6 +1,6 @@
 # Daily News Flash: Build Instructions
 
-Produces a spoken news flash for a Tauranga listener. Built each morning by an automated cloud job, then spoken on the kitchen Echo when the listener says "Alexa, morning news". Target 1,000 to 1,050 words, about seven minutes.
+Produces a spoken news flash for a Tauranga listener. Built each morning by an automated cloud job, then spoken on the kitchen Echo when the listener says "Alexa, morning news". Target 900 to 1,050 words, six to seven minutes.
 
 Written to be listened to while doing something else. Dry, factual, signposted, same block order every day.
 
@@ -227,7 +227,7 @@ Silence, not filler. Exception: an in-season sport with no fixture gets one line
 
 ## 6. Length, item count and fill order
 
-Target 1,000 to 1,050 words at roughly 50 to 60 words per item, so about eighteen substantial items.
+Target 900 to 1,050 words at roughly 50 to 60 words per item, so sixteen to eighteen substantial items.
 
 The item counts below are **maximums, not targets**. Running fewer, fuller items is always correct; splitting the budget across more, thinner ones is not. If a block cannot fill its item count with items that meet the story test in section 4, run fewer and let each have more room.
 
@@ -265,7 +265,7 @@ Floor: 600 words. Below that, deliver short.
 
 A GitHub Actions workflow (`.github/workflows/daily-news-flash.yml`) runs in the cloud every morning at 18:30 UTC, which is 06:30 NZST (07:30 during NZ daylight saving). Nothing runs on any local machine. The workflow:
 
-1. Runs `make_flash.py`, which calls the Anthropic API (Claude Opus 5) with this document as the brief and web search enabled, and gets back the spoken script.
+1. Runs `make_flash.py`, which fetches the approved RSS feeds directly, assembles a digest grouped by source independence group, and makes one stateless call to the Anthropic API (model `claude-sonnet-5`) with this document's editorial sections, the digest, and yesterday's archived flash (for the dedup rule). No web search, no tools, no automatic retries.
 2. Turns that script into `flash.mp3` with Piper text-to-speech (British voice, en_GB-alba).
 3. Writes `flash.txt`, `flash.json`, and a dated archive copy.
 4. Commits all of it back to the repo.
@@ -348,7 +348,7 @@ Harvested 26 July 2026. Eleven items, 640 words, about four and a half minutes. 
 **Unverified, test before relying on it:**
 
 - RSS feed availability for SunLive and the Bay of Plenty Times. Inspect page source for an RSS link tag. The Bay of Plenty Times sits inside the NZ Herald platform, so any feed comes via NZME rather than a standalone URL.
-- Actual words per minute of the Echo's delivery. The 1,000 to 1,050 target assumes roughly 150. Time one real flash and adjust.
+- Actual words per minute of the Echo's delivery. The 900 to 1,050 target assumes roughly 150. Time one real flash and adjust.
 - Voice suitability: judge the Piper voice on a real flash, swap if wanted.
 
 **Expect Bay of Plenty to be sparse.** Even with the single-source local rule, most days will yield nothing. That is the local media market, not a fault in the harvest. Two items is the cap, zero is a normal result.
