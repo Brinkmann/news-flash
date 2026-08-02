@@ -116,9 +116,25 @@ The lead item appears twice, once in the lead line and again with detail in its 
 
 ### Sentence construction
 
-One fact per sentence. Subject, verb, figure. No subordinate clauses that require holding earlier context.
+Short sentences. Subject, verb, figure. No subordinate clauses that require holding earlier context.
 
 Lead with the fact, not the framing. No "top story at home", no "a story the industry is still absorbing", no "now let's turn to".
+
+### Every item must be a story, not a headline
+
+Dry does not mean thin. A two-sentence stub that states a thing happened and stops is a headline, and a flash made of headlines is unlistenable. Each item earns its 50 to 60 words by answering three things:
+
+1. **What happened**, with the specific figures.
+2. **Why it matters**, or what caused it, in one clause.
+3. **What happens next**, where there is a next: a date, a decision due, a person who must respond.
+
+Not every item has all three, but an item with only the first is not ready to run. Cut it and give its words to an item that has more.
+
+Fewer, fuller items always beat more, thinner ones. If the budget says five to six items in a block, five substantial items is correct and thirteen stubs is a failure, even at the same word count.
+
+**Headline (wrong):** "The Opportunity Party has announced its candidate list for this year's election. The party expects close to four billion dollars in savings from its policies."
+
+**Story (right):** "The Opportunity Party has released its candidate list for this year's election, led by [name] in [seat]. Its platform claims close to four billion dollars in savings, mostly from [the main mechanism]. The party polled below the five per cent threshold at the last election and needs an electorate seat to return to Parliament."
 
 ### Cut
 
@@ -211,7 +227,9 @@ Silence, not filler. Exception: an in-season sport with no fixture gets one line
 
 ## 6. Length, item count and fill order
 
-Target 1,000 to 1,050 words. Dry copy averages roughly 60 words per item, so seven minutes needs sixteen to twenty items, not nine. Item count is the constraint, not word count.
+Target 1,000 to 1,050 words at roughly 50 to 60 words per item, so about eighteen substantial items.
+
+The item counts below are **maximums, not targets**. Running fewer, fuller items is always correct; splitting the budget across more, thinner ones is not. If a block cannot fill its item count with items that meet the story test in section 4, run fewer and let each have more room.
 
 | Block | Words | Items |
 |---|---|---|
