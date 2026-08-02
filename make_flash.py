@@ -70,9 +70,38 @@ FEEDS = {
     "Wall Street Journal (world)": [
         "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
     ],
+    # Bay of Plenty. Both titles are NZME, so they cannot corroborate each
+    # other. The local rule (BUILD_INSTRUCTIONS §5) allows one outlet plus a
+    # named institutional source, which is what the group below provides.
+    "Bay of Plenty (NZME)": [
+        "https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/bay-of-plenty-times/?outputType=xml",
+        "https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/rotorua-daily-post/?outputType=xml",
+    ],
+    "Institutional (official)": [
+        "https://www.police.govt.nz/rss.xml",
+        "https://www.beehive.govt.nz/rss.xml",
+    ],
 }
 
+# Source groups that must be present for the corroboration gate to be
+# satisfiable. Fewer than this and the run aborts rather than publishing a
+# flash whose gate could not have been applied.
+MIN_SOURCE_GROUPS = 4
+
 UA = {"User-Agent": "Mozilla/5.0 (compatible; news-flash/1.0)"}
+
+# Word floor from BUILD_INSTRUCTIONS section 6. Shorter than this is a failure,
+# not a short news day.
+MIN_WORDS = 600
+
+# Phrases that indicate the model narrated its process instead of writing the
+# script. Any of these inside the markers fails the run.
+COMMENTARY_MARKERS = (
+    "i'll start by", "i will start by", "let me draft", "let me batch",
+    "i have selected", "within the required range", "here is the final",
+    "here's the final", "word count", "let me research", "let me search",
+    "iterate on word", "final script:",
+)
 MAX_ITEMS_PER_FEED = 15
 WINDOW_HOURS = 36
 
@@ -138,8 +167,10 @@ def build_digest():
             seen.add(t)
             lines.append(f"- {t}" + (f" — {d}" if d else ""))
             total += 1
-    print(f"Digest assembled: {total} items across {len(results)} source groups")
-    return "\n".join(lines)
+    live_groups = [g for g, items in results.items() if items]
+    print(f"Digest assembled: {total} items across {len(live_groups)} live "
+          f"source groups: {', '.join(live_groups)}")
+    return "\n".join(lines), live_groups
 
 
 try:
@@ -161,11 +192,20 @@ def editorial_sections(text):
 brief = editorial_sections(full_brief)
 print(f"Brief trimmed: {len(full_brief)} -> {len(brief)} chars")
 
-digest = build_digest()
+digest, live_groups = build_digest()
+if len(live_groups) < MIN_SOURCE_GROUPS:
+    sys.exit(f"Only {len(live_groups)} source groups returned content "
+             f"(need {MIN_SOURCE_GROUPS}). The corroboration gate could not be "
+             "applied, so the run fails rather than publish an ungated flash.")
 if len(digest) < 500:
-    sys.exit("Digest too small — feeds may be down. Not publishing.")
+    sys.exit("Digest too small. Not publishing.")
 
-client = anthropic.Anthropic()
+# Record which feeds were live, so a thin flash can be told apart from a thin
+# news day when reviewing afterwards.
+with open(os.path.join(REPO, "last_run_sources.json"), "w", encoding="utf-8") as f:
+    json.dump({"date": TODAY, "live_source_groups": live_groups}, f, indent=2)
+
+client = anthropic.Anthropic(max_retries=0)  # no automatic paid retries
 
 prompt = f"""Today is {TODAY}. Write today's news flash for a listener in Tauranga,
 New Zealand, following the build instructions below exactly.
@@ -202,7 +242,7 @@ counts, no commentary. Start with the lead line and end with "End of flash."
 
 resp = client.messages.create(
     model="claude-sonnet-5",
-    max_tokens=8000,
+    max_tokens=2000,
     messages=[{"role": "user", "content": prompt}],
 )
 
@@ -213,19 +253,27 @@ print(f"Usage: in={u.input_tokens} out={u.output_tokens} "
 raw = "".join(b.text for b in resp.content if getattr(b, "type", None) == "text")
 
 match = re.search(r"<FLASH>(.*?)</FLASH>", raw, re.DOTALL)
-if match:
-    flash_text = match.group(1).strip()
-else:
-    print("WARNING: no <FLASH> markers — using raw output.")
-    flash_text = raw.strip()
+if not match:
+    sys.exit("No <FLASH> markers in model output. Extraction is ambiguous, "
+             "so the run fails rather than risk publishing commentary.")
+flash_text = match.group(1).strip()
+
+# Reject process narration that slipped inside the markers.
+for phrase in COMMENTARY_MARKERS:
+    if phrase in flash_text.lower():
+        sys.exit(f"Model commentary detected in script ({phrase!r}). Not publishing.")
+
+# Reject markdown that would be read aloud as punctuation noise.
+if re.search(r"^#{1,6}\s|\*\*|\[.+?\]\(.+?\)", flash_text, re.MULTILINE):
+    sys.exit("Markdown detected in script. Not publishing.")
 
 words = len(flash_text.split())
 print(f"--- Extracted {words} words ---")
 print(flash_text[:400])
 print("--- end preview ---")
 
-if words < 200:
-    sys.exit(f"Flash too short ({words} words). Not publishing.")
+if words < MIN_WORDS:
+    sys.exit(f"Flash too short ({words} words, floor {MIN_WORDS}). Not publishing.")
 if "end of flash" not in flash_text.lower():
     flash_text = flash_text.rstrip(". ") + ". End of flash."
 
