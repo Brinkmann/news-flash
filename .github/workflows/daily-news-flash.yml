@@ -3,8 +3,11 @@ name: Daily news flash
 # Runs entirely on GitHub's servers. Nothing local.
 on:
   schedule:
-    # GitHub cron is UTC. 18:30 UTC = 06:30 NZST (07:30 during NZ daylight time).
-    - cron: "30 18 * * *"
+    # GitHub cron is UTC and best-effort: the 2026-08-02 run fired 73 minutes
+    # late. 17:25 UTC = 05:25 NZST nominal, so even a badly delayed run lands
+    # before the 06:30 listen. (Odd minute chosen: on-the-hour and half-hour
+    # slots are the most congested and the most delayed.)
+    - cron: "25 17 * * *"
   workflow_dispatch: {}   # manual dispatch for controlled testing
 
 permissions:
@@ -59,7 +62,7 @@ jobs:
       # --- Build audio to a DATED file, never straight to the served name. ---
       - name: Make the MP3
         run: |
-          DATE=$(date -u +%Y-%m-%d)
+          DATE=$(TZ='Pacific/Auckland' date +%Y-%m-%d)
           piper --model voice/en_GB-alba-medium.onnx \
                 --output_file "flash-$DATE.wav" < flash.txt
           ffmpeg -y -v error -i "flash-$DATE.wav" \
@@ -69,13 +72,13 @@ jobs:
       # --- GATE: nothing is published unless the audio validates. ---
       - name: Validate the MP3
         run: |
-          DATE=$(date -u +%Y-%m-%d)
+          DATE=$(TZ='Pacific/Auckland' date +%Y-%m-%d)
           python validate_mp3.py "flash-$DATE.mp3" flash.txt
 
       # --- Only now does the served file change. Atomic promotion. ---
       - name: Publish
         run: |
-          DATE=$(date -u +%Y-%m-%d)
+          DATE=$(TZ='Pacific/Auckland' date +%Y-%m-%d)
           mkdir -p archive
           cp flash.json "archive/$DATE.json"
           cp flash.txt  "archive/$DATE.txt"
@@ -97,7 +100,7 @@ jobs:
         if: failure()
         run: |
           set -x
-          DATE=$(date -u +%Y-%m-%d)
+          DATE=$(TZ='Pacific/Auckland' date +%Y-%m-%d)
 
           git config user.name  "flash-bot"
           git config user.email "flash-bot@users.noreply.github.com"
