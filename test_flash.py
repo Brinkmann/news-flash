@@ -101,6 +101,26 @@ check("Whitespace collapsed", mf.clean("a\n\n   b") == "a b")
 check("Truncated to limit", len(mf.clean("x" * 500)) == 280)
 
 
+# ------------------------------------------------- dedup context loader
+print("\nDedup — yesterday's flash loader")
+
+with tempfile.TemporaryDirectory() as d:
+    check("Missing archive dir returns empty, no crash",
+          mf.load_previous_flash(os.path.join(d, "nope"), "2026-08-02") == "")
+    check("Empty archive returns empty",
+          mf.load_previous_flash(d, "2026-08-02") == "")
+    open(os.path.join(d, "2026-07-30.txt"), "w").write("older flash")
+    open(os.path.join(d, "2026-08-01.txt"), "w").write("yesterday flash")
+    open(os.path.join(d, "2026-08-02.txt"), "w").write("today flash")
+    open(os.path.join(d, "2026-08-01.json"), "w").write("{}")
+    check("Picks the most recent flash before today",
+          mf.load_previous_flash(d, "2026-08-02") == "yesterday flash")
+    check("Today's own archive entry is excluded",
+          "today" not in mf.load_previous_flash(d, "2026-08-02"))
+    check("Oversized archive text is capped",
+          len(mf.load_previous_flash(d, "2026-08-02", limit=5)) == 5)
+
+
 # ---------------------------------------------------------------- D3
 print("\nD3 — source group quorum")
 check("Quorum constant present and sane",
@@ -180,8 +200,10 @@ check("No web search tool in production path",
       "web_search" not in src and "tools=" not in src)
 check("Automatic retries disabled", "max_retries=0" in src)
 check("Token ceiling bounded and adequate",
-      "max_tokens=2000" in src,
-      "must exceed ~1400 tokens for a 1000-word script, and be bounded")
+      "max_tokens=3000" in src,
+      "must cover a ~1,600-token script plus adaptive-thinking headroom "
+      "(thinking is on by default on claude-sonnet-5 and counts against "
+      "max_tokens), while staying bounded")
 
 
 # ------------------------------------------------------- D10-D11 MP3 gate
@@ -213,7 +235,7 @@ if os.path.exists("validate_mp3.py"):
 
 # ------------------------------------------------------- D12-D13 workflow
 print("\nD12/D13 — publication safety (workflow inspection)")
-wf = open("daily-news-flash.yml", encoding="utf-8").read()
+wf = open(".github/workflows/daily-news-flash.yml", encoding="utf-8").read()
 check("D12 audio built to a dated file first", 'flash-$DATE.mp3' in wf)
 check("D12 validation gate runs before publish",
       wf.index("validate_mp3.py") < wf.index("name: Publish"))
@@ -224,6 +246,12 @@ check("D13 failure path replaces the SERVED AUDIO, not just a status file",
       "a status file nothing reads is not protection")
 check("D13 failure path aborts loudly if the notice audio is missing",
       "FATAL: flash-unavailable.mp3 missing" in wf)
+check("D13 failure path neutralises the text records, not just the audio",
+      "git add flash.mp3 flash.txt flash.json flash-status.json" in wf,
+      "flash.txt and flash.json sit at fixed URLs and must not keep old text")
+check("D13 failure after a same-day successful publish keeps the good flash",
+      "failed_after_publish" in wf and 'archive/$DATE.json' in wf,
+      "a failed re-dispatch must not replace a valid flash with the notice")
 check("D13 failure commit and push are not silenced",
       "git push || true" not in wf,
       "|| true would hide a failed push")

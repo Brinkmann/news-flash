@@ -34,8 +34,6 @@ TODAY = NOW.strftime("%Y-%m-%d")
 
 # Feeds, grouped so the model can see which independence group each item came
 # from. This directly serves the two-source corroboration gate.
-# Feeds, grouped so the model can see which independence group each item came
-# from. This directly serves the two-source corroboration gate.
 # All URLs below were tested and confirmed working. A browser User-Agent is
 # required: several publishers reject default Python requests with 403.
 FEEDS = {
@@ -104,6 +102,23 @@ COMMENTARY_MARKERS = (
 )
 MAX_ITEMS_PER_FEED = 15
 WINDOW_HOURS = 36
+
+# Yesterday's flash is fed back for the dedup and sport already-aired rules.
+# Capped so a runaway archive file cannot inflate the prompt.
+MAX_PREV_FLASH_CHARS = 7000
+
+
+def load_previous_flash(archive_dir, today, limit=MAX_PREV_FLASH_CHARS):
+    """Most recent archived flash text from before today, for the dedup rule."""
+    try:
+        names = sorted(n for n in os.listdir(archive_dir)
+                       if n.endswith(".txt") and n[:10] < today)
+    except FileNotFoundError:
+        return ""
+    if not names:
+        return ""
+    with open(os.path.join(archive_dir, names[-1]), encoding="utf-8") as f:
+        return f.read()[:limit]
 
 
 def parse_feed(url):
@@ -207,6 +222,20 @@ with open(os.path.join(REPO, "last_run_sources.json"), "w", encoding="utf-8") as
 
 client = anthropic.Anthropic(max_retries=0)  # no automatic paid retries
 
+previous_flash = load_previous_flash(os.path.join(REPO, "archive"), TODAY)
+if previous_flash:
+    dedup_section = f"""
+You are also given YESTERDAY'S FLASH. Apply the dedup rule: do not repeat an
+item that already aired unless there is a significant new development, and a
+sport result that already aired must not run again. Never take facts from it;
+it is context only.
+
+=== YESTERDAY'S FLASH ===
+{previous_flash}
+"""
+else:
+    dedup_section = ""
+
 prompt = f"""Today is {TODAY}. Write today's news flash for a listener in Tauranga,
 New Zealand, following the build instructions below exactly.
 
@@ -238,11 +267,14 @@ counts, no commentary. Start with the lead line and end with "End of flash."
 
 === TODAY'S DIGEST ===
 {digest}
-"""
+{dedup_section}"""
 
+# max_tokens caps thinking AND response text together on claude-sonnet-5
+# (adaptive thinking is on by default). A ~1,050-word script is ~1,600 tokens;
+# 3000 leaves thinking headroom while keeping worst-case output spend bounded.
 resp = client.messages.create(
     model="claude-sonnet-5",
-    max_tokens=2000,
+    max_tokens=3000,
     messages=[{"role": "user", "content": prompt}],
 )
 
