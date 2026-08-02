@@ -1,0 +1,59 @@
+I'll start by researching today's news across all required categories. Let me batch my searches efficiently.Let me draft the full script and iterate on word counts precisely.This is good — 917 words, within the required range. Here is the final script:
+
+---
+
+Foreign Minister Winston Peters faces calls to be sacked, after comments to Chinese-born MP Lawrence Xu-Nan that the Prime Minister has called racist.
+
+New Zealand.
+
+Foreign Minister Winston Peters is facing calls to resign over comments he made about MP Lawrence Xu-Nan, who was born in China. Prime Minister Christopher Luxon says the comments were racist. Luxon also says Peters remains a successful Foreign Minister. Luxon used the controversy to appeal for votes ahead of this year's general election. Former National Party leader Don Brash called the comments absolutely inexcusable. Brash is calling for Peters to be sacked. Former Prime Minister Helen Clark says Peters is inviting a sacking. The comments have made headlines internationally.
+
+The Opportunity Party has announced its candidate list for this year's election. The party expects close to four billion dollars in savings from its policies.
+
+A delivery truck driver was critically injured in a crash at a shopping mall in Silverdale, north of Auckland. Police describe the road conditions at the time as extremely challenging.
+
+Two new Auckland train stations are part of a two point four billion dollar rail investment. The stations will serve Drury, Papakura, Franklin, and South Auckland. Each station will have two platforms, three hundred and fifty car parks, and bus connections.
+
+The government has announced twenty three million dollars for community healthcare. The first stage lets people get suspicious skin spots and moles checked and removed at local doctors' clinics. Health Minister Simeon Brown announced the funding.
+
+Paul Davison, a King's Counsel, has been appointed Independent Redress Officer for historical abuse in state care, for a five year term from the first of August. The appointment follows the government's response to the Royal Commission's report into abuse in state and faith based care.
+
+Building defects are estimated to cost New Zealand two point five billion dollars a year. Officials are calling for reforms that catch mistakes before final inspection.
+
+New water charges are being introduced under the government's local water reforms. Rates bills are expected to fall for some households as a result.
+
+Consumer New Zealand says imported food products sold here match some flagged in an Australian food safety investigation. Officials say New Zealand's food safety system remains robust.
+
+Sales at the Central Otago winery Two Paddocks have jumped by more than eighteen hundred per cent since the thirteenth of July.
+
+A developer has revealed plans for an eight storey building on the heritage waterfront site of the former Fowey Lodge, on Auckland's North Shore.
+
+In the Bay of Plenty, MetService has a red wind warning and an orange heavy rain warning in place today for the Bay of Plenty and Rotorua.
+
+Road upgrade works on Boucher Avenue and surrounding streets in Te Puke restart from late August, the final stage of a large infrastructure project.
+
+World.
+
+United States President Donald Trump says he is confident Israel will agree to end the war in Gaza.
+
+Wildfires continue to burn across parts of Europe during the current heatwave.
+
+The United States is weighing whether to supply Ukraine with Patriot missile technology, following renewed Russian strikes on Ukraine's power grid.
+
+More than sixty thousand people have illegally entered the Spanish enclave of Ceuta, in North Africa. There are concerns illegal immigration is being used there to stir political division.
+
+Technology.
+
+OpenAI and Anthropic are helping design a new United States government framework for reviewing frontier artificial intelligence models before release. The framework is expected to apply mainly to the five largest artificial intelligence labs. It follows ad hoc government interventions in June and July. Anthropic's Claude Fable five and Mythos five were suspended worldwide for about three weeks, under export control powers. OpenAI's G.P.T. five point six was restricted to government vetted partners for twelve days. Neither suspension had a published threshold or timeline. A uniform published framework would replace those case by case negotiations. Critics say the two companies co-designing their own oversight rules is a conflict of interest, since the framework will reflect what the largest labs consider the relevant risks. Analysts say the review process may burden smaller developers more than the largest, best funded labs.
+
+Anthropic disclosed on the thirtieth of July that it is investigating three real world incidents from its own cybersecurity evaluations. Separately, Anthropic has set out its position on open weight models, as debate continues in the industry over open versus closed systems. Anthropic also announced an expanded partnership with the technology firm Cognizant, to bring its Claude models to enterprise clients.
+
+Sport.
+
+World championships. The Commonwealth Games opened in Glasgow, which stepped in to host after the original host, the Australian state of Victoria, withdrew. Coverage describes an understated opening ceremony reflecting that rescued status. The Games are running a reduced programme of about ten sports, using existing venues. Two Silver Ferns netball players have been cleared to compete at the Games, after an eligibility dispute that had threatened to rule them out of the tournament.
+
+Rugby. Domestic provincial rugby, the National Provincial Championship, returns to television this month.
+
+Coming up. The Commonwealth Games continue in Glasgow through the week. The Rugby Championship and the All Blacks' test season begin in the coming weeks. The Premier League and the Bundesliga both begin their new seasons in mid August. The Vuelta a España begins in the middle of August. The United States Open tennis begins in late August. The Champions League group stage draw takes place next month. New Zealand goes to the polls later this year.
+
+End of flash.
