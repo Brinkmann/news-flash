@@ -87,13 +87,16 @@ TOOLS = [{"type": "web_search_20260318", "name": "web_search", "max_uses": 15}]
 messages = [{"role": "user", "content": instruction}]
 
 for turn in range(10):
-    resp = client.messages.create(
+    # Streaming is required by the SDK for calls that could exceed 10 minutes.
+    # We still want the whole message, so we stream and take the final result.
+    with client.messages.stream(
         model=MODEL,
         max_tokens=32000,
         system=SYSTEM,
         messages=messages,
         tools=TOOLS,
-    )
+    ) as stream:
+        resp = stream.get_final_message()
     u = resp.usage
     print(f"Turn {turn}: stop_reason={resp.stop_reason} | "
           f"in={u.input_tokens} out={u.output_tokens} "
