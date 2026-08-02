@@ -6,9 +6,11 @@ Calls the Anthropic API with the built-in web search tool, hands it the
 build instructions as the brief, and asks for today's spoken flash script.
 Writes flash.txt (for the MP3) and flash.json (text record + parked feed).
 
-Robust version: the model may stop mid-conversation to run searches, so we
-loop, feeding the conversation back, until it produces a final written
-answer. All diagnostics are printed so a failure is never silent.
+Cost controls:
+  - The brief is sent as a CACHED system prompt. It is identical every run
+    and every turn, so cache hits cost ~10% of normal input rate.
+  - Only the editorial sections of the brief are sent. Sections 7 and 9 are
+    delivery mechanics and setup notes, irrelevant to writing the flash.
 
 Needs: ANTHROPIC_API_KEY in the environment (GitHub secret).
        BUILD_INSTRUCTIONS.md in the repo root — the rule set.
@@ -17,6 +19,7 @@ Needs: ANTHROPIC_API_KEY in the environment (GitHub secret).
 import datetime
 import json
 import os
+import re
 import sys
 
 import anthropic
@@ -27,49 +30,87 @@ TODAY = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d")
 
 try:
     with open(BRIEF_PATH, encoding="utf-8") as f:
-        brief = f.read()
+        full_brief = f.read()
 except FileNotFoundError:
     sys.exit(f"Build instructions not found at {BRIEF_PATH}. "
              "Add BUILD_INSTRUCTIONS.md to the repo root.")
 
+
+def editorial_sections(text):
+    """Keep only what the writer needs: sections 1-6 and the sample (8).
+
+    Section 7 (output and delivery) and section 9 (failure handling, open
+    items) are pipeline mechanics. Sending them every turn costs money and
+    tells the writer nothing about how to write.
+    """
+    # Split on top-level headings, keeping the heading with its body.
+    parts = re.split(r"\n(?=## )", text)
+    keep = []
+    for part in parts:
+        heading = part.split("\n", 1)[0]
+        # Drop section 7 and section 9 by their numbered headings.
+        if re.match(r"## 7\.", heading) or re.match(r"## 9\.", heading):
+            continue
+        keep.append(part)
+    return "\n".join(keep)
+
+
+brief = editorial_sections(full_brief)
+print(f"Brief trimmed: {len(full_brief)} chars -> {len(brief)} chars")
+
 client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from the environment
 
-instruction = f"""Today is {TODAY}. Follow the build instructions below EXACTLY to
-produce today's news flash for a listener in Tauranga, New Zealand.
+# The brief goes in the system prompt, marked for caching. It never changes,
+# so after the first call each run it is billed at the cache-hit rate.
+SYSTEM = [
+    {
+        "type": "text",
+        "text": "You write a daily spoken news flash. Follow these build "
+                "instructions exactly.\n\n" + brief,
+        "cache_control": {"type": "ephemeral"},
+    }
+]
+
+instruction = f"""Today is {TODAY}. Produce today's news flash for a listener in
+Tauranga, New Zealand, following the build instructions exactly.
 
 Output the SPOKEN SCRIPT ONLY: the exact words to be read aloud by a
-text-to-speech voice. No preamble, no headings other than the spoken block
-labels the instructions call for, no corroboration appendix, no notes.
+text-to-speech voice. No preamble, no corroboration appendix, no notes.
 Start with the lead line and end with the exact words "End of flash."
 
-Apply the two-source corroboration gate genuinely. Use web search thoroughly
-to harvest and verify across independent outlets. A shorter, fully
-corroborated flash is correct; padding is a failure.
-
-BUILD INSTRUCTIONS:
-
-{brief}
-"""
+Apply the two-source corroboration gate genuinely. A shorter, fully
+corroborated flash is correct; padding is a failure."""
 
 MODEL = "claude-sonnet-5"
 TOOLS = [{"type": "web_search_20260318", "name": "web_search", "max_uses": 15}]
 
-# Conversation loop: keep going until the model stops needing tools.
 messages = [{"role": "user", "content": instruction}]
 
-for turn in range(10):  # generous ceiling; normally resolves in 1-2 turns
+for turn in range(10):
     resp = client.messages.create(
         model=MODEL,
-        max_tokens=8000,
+        max_tokens=32000,
+        system=SYSTEM,
         messages=messages,
         tools=TOOLS,
     )
-    print(f"Turn {turn}: stop_reason={resp.stop_reason}, "
-          f"blocks={[getattr(b,'type',None) for b in resp.content]}")
+    u = resp.usage
+    print(f"Turn {turn}: stop_reason={resp.stop_reason} | "
+          f"in={u.input_tokens} out={u.output_tokens} "
+          f"cache_write={getattr(u,'cache_creation_input_tokens',0)} "
+          f"cache_read={getattr(u,'cache_read_input_tokens',0)}")
 
     messages.append({"role": "assistant", "content": resp.content})
 
-    if resp.stop_reason in ("tool_use", "pause_turn"):
+    if resp.stop_reason in ("tool_use", "pause_turn", "max_tokens"):
+        # After several turns, stop researching and write the flash.
+        if turn >= 3:
+            messages.append({
+                "role": "user",
+                "content": "Stop searching now. Using what you have already "
+                           "gathered, write the complete spoken flash script "
+                           "immediately, ending with 'End of flash.'",
+            })
         continue
     break  # end_turn — the model is done
 
