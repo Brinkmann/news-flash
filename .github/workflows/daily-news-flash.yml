@@ -88,17 +88,34 @@ jobs:
           git push
           rm -f "flash-$DATE.mp3"
 
-      # --- If anything above failed, make the staleness visible. ---
-      - name: Mark the flash unavailable on failure
+      # --- If anything above failed, the LISTENER must not hear stale news. ---
+      # A status file alone is not protection: VoiceMonkey fetches flash.mp3
+      # and plays whatever is there. So the audio itself is replaced with a
+      # recorded notice. This is the "clearly controlled unavailable-today
+      # response" the specification requires.
+      - name: Serve the unavailable notice on failure
         if: failure()
         run: |
+          set -x
           DATE=$(date -u +%Y-%m-%d)
-          cat > flash-status.json <<EOF
-          {"date": "$DATE", "status": "failed",
-           "note": "Today's flash was not produced. The audio at flash.mp3 is from an earlier day."}
-          EOF
+
+          if [ ! -f flash-unavailable.mp3 ]; then
+            echo "FATAL: flash-unavailable.mp3 missing from the repo."
+            echo "Stale audio is still being served. Fix this immediately."
+            exit 1
+          fi
+
+          cp flash-unavailable.mp3 flash.mp3
+
+          printf '%s\n' \
+            '{' \
+            "  \"date\": \"$DATE\"," \
+            '  "status": "failed",' \
+            '  "note": "Today'"'"'s flash was not produced. flash.mp3 now serves the unavailable notice, not stale news."' \
+            '}' > flash-status.json
+
           git config user.name  "flash-bot"
           git config user.email "flash-bot@users.noreply.github.com"
-          git add flash-status.json
-          git commit -m "Flash FAILED for $DATE" || echo "No changes"
-          git push || true
+          git add flash.mp3 flash-status.json
+          git commit -m "Flash FAILED for $DATE - serving unavailable notice"
+          git push
