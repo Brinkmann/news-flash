@@ -1,5 +1,5 @@
 {
   "date": "2026-08-02",
-  "status": "failed",
-  "note": "Today's flash was not produced. flash.mp3 now serves the unavailable notice, not stale news."
+  "status": "failed_after_publish",
+  "note": "A later run failed today. The flash published earlier today remains live."
 }
