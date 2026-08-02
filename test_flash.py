@@ -219,8 +219,16 @@ check("D12 validation gate runs before publish",
       wf.index("validate_mp3.py") < wf.index("name: Publish"))
 check("D12 served file promoted only in the publish step",
       'cp "flash-$DATE.mp3" flash.mp3' in wf)
-check("D13 failure path marks the flash unavailable",
-      "if: failure()" in wf and "flash-status.json" in wf)
+check("D13 failure path replaces the SERVED AUDIO, not just a status file",
+      "if: failure()" in wf and "cp flash-unavailable.mp3 flash.mp3" in wf,
+      "a status file nothing reads is not protection")
+check("D13 failure path aborts loudly if the notice audio is missing",
+      "FATAL: flash-unavailable.mp3 missing" in wf)
+check("D13 failure commit and push are not silenced",
+      "git push || true" not in wf,
+      "|| true would hide a failed push")
+check("D13 notice audio exists in the repo",
+      os.path.exists("flash-unavailable.mp3"))
 check("Concurrency guard prevents overlapping paid runs",
       "concurrency:" in wf)
 check("Job timeout bounded", "timeout-minutes:" in wf)
