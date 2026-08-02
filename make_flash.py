@@ -23,13 +23,18 @@ import os
 import re
 import sys
 import xml.etree.ElementTree as ET
+import zoneinfo
 
 import anthropic
 import requests
 
 REPO = os.path.dirname(os.path.abspath(__file__))
 BRIEF_PATH = os.path.join(REPO, "BUILD_INSTRUCTIONS.md")
-NOW = datetime.datetime.now(datetime.UTC)
+# The flash is dated for the listener's morning, not UTC. The scheduled run
+# fires in the UTC evening, which is already the next day in New Zealand;
+# dating by UTC would label Monday's flash with Sunday's date and overwrite
+# Sunday's archive (this happened on 2026-08-02/03).
+NOW = datetime.datetime.now(zoneinfo.ZoneInfo("Pacific/Auckland"))
 TODAY = NOW.strftime("%Y-%m-%d")
 
 # Feeds, grouped so the model can see which independence group each item came
