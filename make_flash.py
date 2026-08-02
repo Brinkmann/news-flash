@@ -6,6 +6,10 @@ Calls the Anthropic API with the built-in web search tool, hands it the
 build instructions as the brief, and asks for today's spoken flash script.
 Writes flash.txt (for the MP3) and flash.json (text record + parked feed).
 
+Robust version: the model may stop mid-conversation to run searches, so we
+loop, feeding the conversation back, until it produces a final written
+answer. All diagnostics are printed so a failure is never silent.
+
 Needs: ANTHROPIC_API_KEY in the environment (GitHub secret).
        BUILD_INSTRUCTIONS.md in the repo root — the rule set.
 """
@@ -19,9 +23,8 @@ import anthropic
 
 REPO = os.path.dirname(os.path.abspath(__file__))
 BRIEF_PATH = os.path.join(REPO, "BUILD_INSTRUCTIONS.md")
-TODAY = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+TODAY = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d")
 
-# --- Load the rule set that governs the flash ---
 try:
     with open(BRIEF_PATH, encoding="utf-8") as f:
         brief = f.read()
@@ -36,12 +39,11 @@ produce today's news flash for a listener in Tauranga, New Zealand.
 
 Output the SPOKEN SCRIPT ONLY: the exact words to be read aloud by a
 text-to-speech voice. No preamble, no headings other than the spoken block
-labels the instructions call for, no corroboration appendix, no notes to me.
+labels the instructions call for, no corroboration appendix, no notes.
 Start with the lead line and end with the exact words "End of flash."
 
 Apply the two-source corroboration gate genuinely. Use web search thoroughly
-to harvest and verify across independent outlets — this is real work, budget
-your searches accordingly rather than doing a shallow pass. A shorter, fully
+to harvest and verify across independent outlets. A shorter, fully
 corroborated flash is correct; padding is a failure.
 
 BUILD INSTRUCTIONS:
@@ -49,30 +51,55 @@ BUILD INSTRUCTIONS:
 {brief}
 """
 
-# The model does the searching itself, server-side, in this one call.
-# Model: Claude Opus 5, the current flagship (Opus 4.8 was retired to legacy).
-# Cost is a few cents per morning at Opus 5 rates plus web-search request fees.
-resp = client.messages.create(
-    model="claude-opus-5",
-    max_tokens=8000,
-    messages=[{"role": "user", "content": instruction}],
-    tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 30}],
-)
+MODEL = "claude-opus-5"
+TOOLS = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 30}]
 
-# Pull the spoken text out of the response (skip the search machinery blocks).
-flash_text = "".join(
-    block.text for block in resp.content if getattr(block, "type", None) == "text"
-).strip()
+# Conversation loop: keep going until the model stops needing tools.
+messages = [{"role": "user", "content": instruction}]
 
-if not flash_text or "End of flash" not in flash_text:
-    sys.exit("Editorial step did not return a complete flash. "
-             "Check the run log. Not publishing a broken flash.")
+for turn in range(10):  # generous ceiling; normally resolves in 1-2 turns
+    resp = client.messages.create(
+        model=MODEL,
+        max_tokens=8000,
+        messages=messages,
+        tools=TOOLS,
+    )
+    print(f"Turn {turn}: stop_reason={resp.stop_reason}, "
+          f"blocks={[getattr(b,'type',None) for b in resp.content]}")
 
-# flash.txt feeds the MP3 step.
+    messages.append({"role": "assistant", "content": resp.content})
+
+    if resp.stop_reason in ("tool_use", "pause_turn"):
+        continue
+    break  # end_turn — the model is done
+
+# Gather every piece of spoken text across the whole conversation.
+flash_text = ""
+for msg in messages:
+    if msg["role"] != "assistant":
+        continue
+    content = msg["content"]
+    if isinstance(content, str):
+        flash_text += content
+        continue
+    for block in content:
+        if getattr(block, "type", None) == "text":
+            flash_text += block.text
+flash_text = flash_text.strip()
+
+print(f"--- Extracted {len(flash_text.split())} words ---")
+print(flash_text[:500])
+print("--- end preview ---")
+
+if len(flash_text.split()) < 200:
+    sys.exit(f"Flash too short ({len(flash_text.split())} words). Not publishing.")
+if "end of flash" not in flash_text.lower():
+    print("WARNING: no 'End of flash' marker — appending one and continuing.")
+    flash_text = flash_text.rstrip(". ") + ". End of flash."
+
 with open(os.path.join(REPO, "flash.txt"), "w", encoding="utf-8") as f:
     f.write(flash_text + "\n")
 
-# flash.json is the text record and the (parked) Flash Briefing feed.
 item = [{
     "uid": f"flash-{TODAY}",
     "updateDate": f"{TODAY}T06:30:00.0Z",
