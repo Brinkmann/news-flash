@@ -3,11 +3,12 @@ name: Daily news flash
 # Runs entirely on GitHub's servers. Nothing local.
 on:
   schedule:
-    # GitHub cron is UTC and best-effort: the 2026-08-02 run fired 73 minutes
-    # late. 17:25 UTC = 05:25 NZST nominal, so even a badly delayed run lands
-    # before the 06:30 listen. (Odd minute chosen: on-the-hour and half-hour
-    # slots are the most congested and the most delayed.)
-    - cron: "25 17 * * *"
+    # GitHub cron is UTC and best-effort: observed delays on this repo were
+    # 73 minutes (2026-08-02) and 94 minutes (2026-08-03), so the buffer must
+    # absorb roughly two hours. 16:25 UTC = 04:25 NZST nominal; even a
+    # two-hour delay publishes before the 06:30 listen. (Odd minute chosen:
+    # on-the-hour and half-hour slots are the most congested.)
+    - cron: "25 16 * * *"
   workflow_dispatch: {}   # manual dispatch for controlled testing
 
 permissions:
