@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-27",
+  "date": "2026-08-28",
   "live_source_groups": [
-    "Stuff",
     "RNZ",
-    "BBC Sport",
     "BBC",
     "Newsroom",
+    "BBC Sport",
+    "Stuff",
     "Al Jazeera",
     "Wall Street Journal (world)",
     "NZME (NZ Herald)",
