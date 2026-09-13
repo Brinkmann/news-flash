@@ -1,14 +1,14 @@
 {
-  "date": "2026-09-13",
+  "date": "2026-09-14",
   "live_source_groups": [
-    "Newsroom",
-    "RNZ",
-    "Al Jazeera",
-    "NZME (NZ Herald)",
     "BBC",
-    "BBC Sport",
-    "Stuff",
     "Wall Street Journal (world)",
+    "Al Jazeera",
+    "Newsroom",
+    "Stuff",
+    "BBC Sport",
+    "RNZ",
+    "NZME (NZ Herald)",
     "Institutional (official)",
     "Bay of Plenty (NZME)"
   ]
