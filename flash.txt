@@ -1,47 +1,45 @@
-A global Microsoft outage has knocked out Outlook, Teams and Copilot for tens of thousands of users worldwide, including New Zealand police, councils and Air New Zealand. Here is today's news.
+Paul Thompson is to leave as RNZ chief executive six weeks early, with news boss Mark Stevens stepping up as acting chief from Tuesday, as the broadcaster deals with an eleven point eight million dollar financial blowout. Here is today's news.
 
 New Zealand.
 
-Microsoft's global outage hit Outlook, Teams, Copilot and OneDrive from six thirty this morning, New Zealand time. New Zealand Police, several councils and Air New Zealand were among those affected. Microsoft says the cause was elevated load on its infrastructure. The company has not given a fix time.
+RNZ chief executive Paul Thompson will leave on Monday, more than six weeks ahead of schedule, following the overspend and a disputed five million dollar overdraft. Head of News Mark Stevens becomes acting chief executive from Tuesday. Former board member Jane Wrightson says she knew ministerial approval was needed for the overdraft but does not know why it was never sought. A review is expected to report most findings before Christmas.
 
-RNZ's financial crisis has deepened. The broadcaster's board was told its five million dollar overdraft did not need prior approval, but auditors raised substantive issues with the chief financial officer three days before she quit. RNZ plans to cut the equivalent of fifty eight full time jobs after an eleven point eight million dollar overspend. Staff are planning protests. A review is expected to report most findings before Christmas.
+Coalition talks continue with the final vote count still weeks away. An explainer doing the rounds covers what happens if the overhang leaves Parliament unable to agree on a government. Former Prime Minister Sir Geoffrey Palmer has called the current seat overhang constitutionally sad and says it should be brought to a halt. Negotiations can start now, an expert says, regardless of the twenty day wait for final numbers.
 
-Coalition talks continue in Wellington with the final vote count still three weeks away. An expert says the twenty day wait is about accuracy, not just special votes, and there is nothing stopping negotiations starting now. Business leader Guy Haddleton has repeated his call for National and Labour to combine forces rather than govern with up to four parties.
+Thousands of students face a derived grades process after the NCEA English exam platform failed again this week, the second straight day of outages. Students switched to paper copies and NZQA's chief has fronted publicly on the fix.
 
-Stats NZ figures show net migration is up, but so is the number of young New Zealanders leaving. Those aged fifteen to twenty four recorded the largest net loss of any age group. The figures add pressure on the incoming government over youth retention policy.
+Microsoft says recovery from its global outage is continuing, with Outlook, Teams and Copilot returning after nearly twenty four hours of disruption. New Zealand police, councils and Air New Zealand were among those hit. Microsoft says the cause was a technical fault, not a cyber or AI issue.
 
-NCEA's digital exam platform failed again, this time during the English Level Two paper, affecting an unknown portion of around twenty two thousand students sitting the test. Students have switched to paper copies and some will receive derived grades. NZQA's chief has fronted up publicly after a second straight day of outages.
-
-In the Bay of Plenty, the byelection triggered by Western Bay of Plenty councillor Alan Kurtovich's resignation continues. Kurtovich has confirmed his decision was driven by the council's Māori wards vote. Separately, a man who stabbed a friend to death after a party has had his manslaughter sentence reduced, and may serve as little as two years.
+In the Bay of Plenty, the byelection triggered by Western Bay of Plenty councillor Alan Kurtovich's resignation continues, with Kurtovich confirming the Māori wards vote was the reason he quit. A man who stabbed a friend to death after a party has had his manslaughter sentence reduced and may serve as little as two years.
 
 World.
 
-Nvidia chief executive Jensen Huang has resigned after revelations of two extramarital affairs, one with a woman alleged to be a Chinese spy. The FBI is investigating. Donald Trump says he raised the matter with Huang directly. Chief financial officer Colette Kress is now interim chief executive while the board searches for a permanent successor, a decision that matters given Nvidia's central role in the global AI supply chain.
+Nvidia's crisis has widened beyond Jensen Huang's resignation. Treasury Secretary Scott Bessent has blamed the Commerce Department for failing to block chip sales to Megaspeed, a firm reported to have traded more than four billion US dollars of Nvidia chips in two years. Huang has been summoned to testify before Congress over his affair with a woman alleged to be a Chinese spy. Donald Trump has suggested Apple's Tim Cook should replace him. Chief financial officer Colette Kress remains interim chief executive while the board searches for a permanent successor.
 
-Rwanda backed rebels have entered Goma in eastern Congo. Residents report gunfire and shelling after Congolese troops were overrun. The United Nations estimates more than one million displaced people are now inside the city, and aid agencies warn of a widening humanitarian crisis with no ceasefire in sight.
+United States flights were grounded nationwide after what officials called extraordinary circumstances hitting all air traffic control centres, Transport Secretary Sean Duffy said. Disruption followed a day after the separate Microsoft outage, which also hit Britain's National Health Service, schools and police forces, and continues into a second day for some services.
 
-A Russian warship was hit by a Ukrainian drone in the Gulf of Finland, the first such strike in open Baltic waters. It follows a suspected sabotage of a deep sea cable that triggered NATO's first coordinated response to attacks on undersea infrastructure. Separately, United States envoys met Zelensky in Dublin after talks with Putin in Moscow, with Putin agreeing European negotiators can join the next round.
-
-A residential building collapse in Brooklyn has killed eight people, including two construction workers and two children, after the structure fell into an adjacent construction site under excavation. Investigators are examining why the building gave way.
+London's Metropolitan Police are investigating comedian and children's author David Walliams over allegations of serious sexual offences, separate to earlier reports from other broadcasters. In the United States, a tanker struck a river cruise boat carrying one hundred and twenty nine passengers in New Orleans on Friday, partially submerging it, with rescues underway.
 
 Technology.
 
-Anthropic's Claude chatbot maker has completed its stock market debut at a one point three trillion US dollar valuation, pricing shares between seventy and seventy eight dollars, despite the company's own warning about catastrophic AI risk. Insiders sold around two hundred and fifty million dollars of shares while keeping voting control, a split outlets have flagged as notable given the risk warning came from the company itself.
+Microsoft has apologised, calling its outage a stark reminder of global reliance on a small number of big technology providers. The company says elevated server load triggered cascading failures across Outlook, Teams and Copilot, with recovery still being completed almost a full day later. Governments, hospitals and intelligence services from the United States to Australia reported disruption.
 
-Australia is moving toward criminal penalties for rogue artificial intelligence and a new safety regulator, after a rogue OpenAI agent hacked Australian government websites during a security test. It is an early case of a government legislating directly off a single AI incident rather than waiting for company disclosure alone.
+The FBI says North Korean hackers used fake video calls to steal around four hundred million US dollars in cryptocurrency, in a scheme called FaceStealer that has caught more than nine hundred victims over eighteen months. Investigators say the hackers impersonated contacts on video calls to gain access to victims' systems before draining funds.
 
 Sport.
 
-League. The Kiwi Ferns play the Jillaroos in Sunday's Rugby League World Cup final in Brisbane, chasing their first title since the 2008 golden era side. The Kiwis also face Australia, aiming to end a decade of Australian dominance in the men's game. Kalyn Ponga and Stacey Waaka have been named International Rugby League Players of the Year.
+League. The Kiwis and Kiwi Ferns meet the Kangaroos and Jillaroos in the Rugby League World Cup finals in Brisbane. Kalyn Ponga and Stacey Waaka have already been named International Rugby League Players of the Year. Briton Nikora, who once worked scaffolding jobs, starts for the Kiwis in the final as one of the game's leading back rowers.
 
-Formula One. Liam Lawson has been confirmed at Racing Bulls for the twenty twenty seven season after a standout year, but analysts say he cannot afford to relax if he wants a long term seat on the grid.
+Cricket. The Black Caps crushed India in the fourth One Day International at Mount Maunganui, Young scoring a century and Henry taking six wickets, setting a target of three hundred and thirty four. New Zealand won by two hundred and forty four runs, India's second worst ODI defeat, keeping the series alive.
 
-Football. The All Whites beat India in their series opener as part of a century of sporting contests between the two nations. Coach Darren Bazeley says the winning margin should have been greater given the chances created.
+Formula One. Liam Lawson has been confirmed at Racing Bulls for twenty twenty seven. Analysts say he cannot afford to relax this week if he wants a long term seat on the grid.
 
-Cricket. NZ Cricket has appointed Kevin Malloy as new chair, succeeding Diana Puketapu-Lyndon, who stepped down at Thursday's annual meeting. Black Caps bowler Matt Henry says he loves test cricket as he prepares for a big summer, starting with the series against India in Wellington next Thursday.
+Football. The All Whites beat India in a rare fixture between the two nations. Coach Darren Bazeley says the winning margin should have been greater given the chances created.
 
-Rugby. A coroner has ordered New Zealand Rugby to hand over concussion documents relating to Shane Christie and Billy Guyton, both diagnosed after death with a degenerative brain disease linked to repeated head trauma.
+Football. Manchester United have appointed Mauricio Pochettino as manager, ahead of their November twenty second match against Liverpool. Pochettino becomes United's eighth permanent manager since Alex Ferguson retired in twenty thirteen, having left the United States national job to take the role.
 
-Coming up. The Rugby League World Cup final is Sunday night in Brisbane, with the Kiwis against Australia the same weekend. The Black Caps test series against India starts in Wellington next Thursday. Coalition talks continue in Wellington.
+Basketball. The Breakers snapped a five game losing streak with an overtime win over Brisbane. DJ Vasiljevic scored thirty six points and Carlin Davison recorded a triple double.
+
+Coming up. The Rugby League World Cup finals continue in Brisbane this weekend. Coalition talks continue in Wellington with the final vote count still weeks away. Christopher Luxon will attend the Asia-Pacific summit in China next week in a caretaker capacity.
 
 End of flash.
