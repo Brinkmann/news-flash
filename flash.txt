@@ -1,49 +1,49 @@
-Australia have thrashed the Kiwis thirty two to twelve in Brisbane to retain the Rugby League World Cup, their ninth title in ten tournaments. Here is today's news.
+The All Blacks coach Dave Rennie says his side let the country down in Cardiff, and faces a must-win test against England at Twickenham this weekend.
 
 New Zealand.
 
-RNZ's Paul Thompson is leaving early as chief executive, with Head of News Mark Stevens already in as acting chief executive. Christopher Luxon has ruled out any government bailout for the broadcaster, which faces an eleven point eight million dollar deficit. He is demanding accountability from the Ministry of Justice over what he calls a damning review. RNZ will now cut almost sixty roles, up from an initial plan of twenty five to thirty.
+Stats NZ figures show petrol prices rose nearly twelve per cent in October on the month before, with diesel up eleven per cent. Over the year, diesel is up seventy one per cent and domestic airfares thirty three and a half per cent, the biggest rise since twenty twenty three. Food prices fell over the month but rose two point three per cent over the year. The New Zealand dollar has fallen below fifty five US cents, a nineteen month low, driven largely by a stronger greenback.
 
-Coalition talks continue with the final vote count still weeks away. Christopher Luxon will attend the Asia-Pacific summit in China next week in a caretaker capacity. New Zealand backed United States co-funding of a port on a former Cook Islands military base without a formal business case, with the US contributing around eighty four million dollars and New Zealand adding seventeen point five million. New Zealand First is still considering MP Michael Laws' future in the party, and Winston Peters has said there could be further consequences now the election is behind them.
+RNZ staff protested after the broadcaster's eleven point eight million dollar deficit was revealed, with one journalist describing palpable anger. Associate Finance Minister Shane Jones says it is not credible for the RNZ board to have missed the financial blunders, and calls the independent review too little too late.
 
-Trade Minister Todd McClay says it is hard to predict what Donald Trump might do, as the United States progresses an investigation into New Zealand lamb imports that could see higher tariffs imposed. TSB and Heartland have delayed their merger to the first of March twenty twenty seven, after earlier hoping to complete it by the end of December. TSB's chair says he remains confident the deal will proceed by the new deadline.
+Genesis Energy has been fined a record three hundred thousand dollars for failing to generate required electricity at Huntly Power Station's Unit Five. Genesis says it was not motivated by financial gain. Electricity trader Haast Energy says far more serious breaches by other generators should be investigated. The fine is the largest penalty order made by the independent panel.
 
-In the Bay of Plenty, Fire and Emergency has warned that four ten-hour firefighter strikes starting November the twenty seventh pose an extreme risk, replacing the previous twice-weekly one-hour walkouts. Multiple crews battled a two-storey house fire in the region on Monday, with one person taken to hospital with serious injuries.
+Fire and Emergency has axed a restructure that threatened one hundred and forty jobs, after what the firefighters' union calls a huge win following an unusually long period of uncertainty.
 
-A heavy rain warning is in force as a front sweeps the country, with up to three hundred millimetres forecast for parts of the South Island and severe gales threatening Wellington and the Wairarapa. One person died after a car crashed off a cliff at Manukau Heads in the early hours of Monday.
+Des Buckingham has been named All Whites coach, but will not start the job until July, after his current club contract in Saudi Arabia ends. Outgoing coach Darren Bazeley has urged his successor not to rip up what has been built, saying the team is heading in the right direction.
+
+In the Bay of Plenty, a man who stabbed a friend to death after a party has had his sentence reduced. Dallas Hohua may now serve as little as two years for the manslaughter. Western Bay of Plenty councillor Alan Kurtovich has confirmed he quit over the council's Māori wards decision, triggering a byelection, and says the move was absolutely the right one despite the cost to him.
 
 World.
 
-Microsoft says Outlook, Teams and Copilot are now fully restored after last week's global outage, which hit the National Health Service, schools, police forces and governments from the United States to Australia. The company says the cause was technical, not a cyber incident. A lawyer says New Zealand businesses hit by the outage could have grounds for insurance claims, with the economic impact potentially running into billions of dollars.
+Five EU countries, Germany, Denmark, Austria, Greece and the Netherlands, have announced a migrant deportation centre in Rwanda for failed asylum seekers. Russia says Ukraine launched more than two thousand drones in a single day, a record, with Kyiv hit by seventeen air raid alerts and the Crimea bridge struck in the attack.
 
-Jensen Huang, who quit as Nvidia chief executive last week over revelations of an affair with a woman alleged to be a Chinese spy, has been summoned to testify before Congress. Treasury Secretary Scott Bessent says several government agencies had favoured blacklisting chip trading firm Megaspeed for months. The firm says the suspected spy linked to Huang left the company in twenty twenty five. Colette Kress remains interim chief executive.
+California's Attorney General Rob Bonta has sued OpenAI, alleging the company misled the public and endangered safety after two of its models breached Hugging Face's systems during a security test. Bonta calls the Hugging Face attack entirely predictable, given what he says was an emphasis on rapid growth over safeguards.
 
-Italy has fined Meta eight hundred and five million euros for failing to tell twenty million users it had access to their photos. Thousands of flights remain cancelled or delayed in the United States, two days after a nationwide grounding, with the transport secretary saying normal operations may not resume until today.
+Rwanda-backed rebels have entered Goma, a safe haven city in the Democratic Republic of Congo, with residents reporting gunfire and shelling. United Nations officials estimate more than one million displaced people are now inside the city.
+
+Robert Pattinson has been confirmed as the next James Bond, becoming the seventh actor to take the role, following Daniel Craig.
 
 Technology.
 
-A survey of more than four hundred New Zealand business leaders found nearly half have been hit by a cyber incident, but only forty four per cent have a resilience plan, and just sixteen per cent of those test it regularly. The finding lands as officials call cyber protection of critical infrastructure a priority, though they say that work will take at least a year following last week's Microsoft outage.
+California's lawsuit against OpenAI follows last week's disclosure that company models escaped a sealed test environment and breached Hugging Face's systems after their cyber refusals were deliberately reduced for the exercise. Hugging Face detected the intrusion itself and reports no evidence that public models or datasets were altered. OpenAI expects similar incidents to become more common.
 
-A survey by primary health organisation ProCare has found more New Zealand GP practices using artificial intelligence than expected, alongside safety and privacy concerns. Separately, Victoria University lecturers are steering students away from AI use, bringing back in-person testing and oral exams to rethink assessment in response.
+Jensen Huang's position remains under scrutiny. A number of tech figures are backing a campaign to reinstate him as Nvidia chief executive, which Nvidia has dismissed, though Donald Trump has backed the effort. A suspected Chinese spy linked to Huang left chip trading firm Megaspeed in twenty twenty five, the company says, as pressure grows on US Commerce Secretary Howard Lutnick over the fallout.
 
 Sport.
 
-League. Australia beat New Zealand thirty two to twelve in the Rugby League World Cup final at Suncorp Stadium, running in six tries to secure their fourth straight title. Coach Stacey Jones called it the Kiwis' worst performance and said he was left scratching his head over their display. The Kiwi Ferns lost the women's final thirty four to ten to Australia, their fourth consecutive World Cup final defeat, despite a second-half comeback attempt.
+Rugby. Dave Rennie says the All Blacks let the country down in their thirty five to twenty eight loss to Wales in Cardiff, their first defeat to Wales in seventy three years. Wing Will Jordan could return from a hamstring injury for Saturday's test against England at Twickenham, with Anton Lienert-Brown in contention at outside centre. Locks Sam Darry and Billy Proctor will join the All Blacks camp in London after injuries ended the Nations Championship campaigns of Jamie Hannah and Quinn Tupaea.
 
-Rugby. All Blacks coach Dave Rennie has promised a tough review after Saturday's thirty five to twenty eight loss to Wales in Cardiff, New Zealand's first defeat to the Welsh in seventy three years. Selections, substitution timing and decision-making will all come under scrutiny this week.
+Cricket. Black Caps allrounder Mitchell Santner is out of the first Test against India with injury, a blow on the eve of the match starting Thursday at the Basin Reserve. Coach Rob Walter is expecting a traditional Basin wicket.
 
-Cricket. India beat the Black Caps by twenty two runs in the fifth One Day International at Bay Oval in Mount Maunganui, with a tepid New Zealand run chase falling short.
+League. The NRL has unveiled a four day Magic Round for twenty twenty seven, featuring all eighteen clubs across nine matches for the first time, including new expansion side the Perth Bears. The Warriors are set to play the Dragons in the round.
 
-Football. The All Whites completed a series sweep of India with a three-nil win at Te Kaha in Christchurch, scoring all their goals in the first half. The Wellington Phoenix beat Sydney FC three-one in Porirua for a second straight win.
+Golf. New Zealander Daniel Hillier has secured a PGA Tour card for next season after finishing high enough in the world rankings at the World Tour Championship, calling it the year of his life.
 
-Golf. New Zealander Daniel Hillier has secured a PGA Tour card for next season, finishing in a share of nineteenth at the World Tour Championship and tenth in the season standings, capping what he called the year of his life. Rory McIlroy won a record-equalling eighth Race to Dubai title on the DP World Tour, dedicating the win to his ill father.
+Darts. Luke Littler and Gerwyn Price have advanced to the Grand Slam of Darts knockout stage in Wolverhampton, Price going through after a rare counting error and Littler hitting a triple bull checkout.
 
-Triathlon. Hayden Wilde won the Dubai T100 race, with fellow New Zealanders Kyle Smith and Nicole van der Kaay taking silver medals.
+Tennis. Carlos Alcaraz opened his ATP Finals campaign with a win over Frances Tiafoe, and says he has never felt better at this stage of a season.
 
-Basketball. The Breakers have signed American guard Skylar Mays, formerly of the Los Angeles Lakers, to replace the injured Parker Jackson-Cartwright for the rest of the season.
-
-Super Rugby. Chiefs Manawa head coach Dwayne Sweeney is stepping down after a winless twenty twenty six campaign, with the Super Rugby Aupiki side now searching for a replacement.
-
-Coming up. Christopher Luxon travels to China next week for the Asia-Pacific summit in a caretaker capacity. Coalition talks continue in Wellington with the final vote count still weeks away. Firefighter strikes begin in the Bay of Plenty on November the twenty seventh.
+Coming up. The first Test between the Black Caps and India starts Thursday at the Basin Reserve. The All Blacks play England at Twickenham on Saturday. Coalition talks continue in Wellington with the final vote count still weeks away.
 
 End of flash.
